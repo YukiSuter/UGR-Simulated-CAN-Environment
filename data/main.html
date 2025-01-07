@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <link href="./output.css" type="text/css" rel="stylesheet" ></link>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    p {
+      color: white;
+      font-size: 1.125rem; /* 18px */
+      line-height: 1.75rem; /* 28px */
+    }
+
+    .configRow {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  </style>
+  <title>UGR Simulated CAN Environment</title>
+</head>
+<body>
+  <div class="flex flex-col min-h-screen bg-slate-900 p-10 pt-5 h-full">
+    <div class="flex flex-row justify-between min-w-screen">
+      <h1 class="text-3xl text-white pb-7 pt-5">UGRacing - Regenerative Braking Simulated Environment</h1>
+      <img src="./UGRLogo_white.png" style="width:160px;height:70px;">
+
+    </div>
+    
+    <div class="flex flex-col flex-grow bg-slate-800 rounded-md border border-slate-600 h-full">
+      <div class="flex flex-row items-start h-10">
+        <div id="config_static_cont" class="h-10 mt-1">
+          <button id="config_static" class="text-xl text-sky-300 py-1 px-5 border-b-2 border-sky-300 h-full">Regen - Static</button>
+        </div>
+        <div id="config_dynamic_cont" class="h-10 mt-1 bg-slate-700 rounded-tl-md border-l border-t border-slate-600">
+          <button id="config_dynamic" class="text-xl text-gray-400 py-1 px-5 border-b border-slate-600 h-full">Regen - Dynamic</button>
+        </div>
+        <div id="config_dynamic_cont" class="h-10 mt-1 bg-slate-700 border-l border-t border-slate-600">
+          <button id="config_dynamic" class="text-xl text-gray-400 py-1 px-5 border-b border-slate-600 h-full">Custom CAN</button>
+        </div>
+        <div id="config_spacer" class="h-10 flex-grow bg-slate-700 border border-slate-600 mt-1"></div>
+        <div id="config_settings_cont" class="h-10 mt-1 bg-slate-700 border-t border-slate-600">
+          <button id="config_settings" class="text-xl text-gray-400 py-1 px-5 border-b border-slate-600 h-full">Settings ⚙️</button>
+        </div>
+        
+      </div>
+      <div class="flex flex-col flex-grow overflow-hidden p-3" style="height: calc(100vh-100px)">
+        <!-- Home Page -->
+        <div class="scrollbar-thin scrollbar-thumb-sky-700 flex flex-col h-full overflow-y-auto ">
+          <div id="static_settings_container" class="flex-grow p-5 justify-center">
+            <!-- Main Settings -->
+            <p class="text-white">Welcome to the UGRacing Regenerative Braking Simulated Environment.</p>
+            <p class="text-white">
+            This page is used, along with the simulated environment board to conduct tests and analyse the regenerative testing algorithm.
+            <br>
+            Please use the settings tab to set the IP address of the ESP32 microcontroller board. Once that has been set, return to this tab to conduct static tests.
+            <br>
+            The static tab is used to send a single "set" of instructions down the CAN bus. The dynamic tab is used to simulate actual use by uploading a CSV of data from assetto corsa.
+            </p>
+            <!-- Add more rows as needed -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./../js/main_renderer.js"></script>
+  
+</body>
+</html>
