@@ -30,6 +30,12 @@ void setup() {
     request->send(200, "text/plain", "Test Successful;");
   });
 
+  server.on("/api/send_CAN", HTTP_GET, [](AsyncWebServerRequest *request){
+    // Example: Change the behavior of the main program
+    Serial.println("CAN SEND: ");
+    request->send(200, "text/plain", "Test Successful;");
+  });
+
   // Serve the web page
   server.serveStatic("/", LittleFS, "/").setDefaultFile("main.html");
 
