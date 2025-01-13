@@ -1,6 +1,7 @@
 #include <WiFi.h>
 #include <ESPAsyncWebServer.h>
 #include <LittleFS.h>
+#include <CAN.h>
 
 // Define your SSID and password
 const char* ssid = "UGR-Simulated-CAN-Environment";
@@ -8,8 +9,14 @@ const char* password = "highvoltage25";
 
 AsyncWebServer server(80);  // Create an AsyncWebServer on port 80
 
+#define TX_GPIO_NUM   40
+#define RX_GPIO_NUM   41
+
+
 void setup() {
   Serial.begin(115200);
+  
+  CAN.setPins (RX_GPIO_NUM, TX_GPIO_NUM);
 
   if (!LittleFS.begin()) {  // Initialise LittleFS
     Serial.println("An Error has occurred whilst mounting LittleFS");
@@ -38,6 +45,13 @@ void setup() {
 
   // Serve the web page
   server.serveStatic("/", LittleFS, "/").setDefaultFile("main.html");
+
+  server.onNotFound([](AsyncWebServerRequest *request) {
+    // Respond with 404 for unmatched paths
+    Serial.println("Request for unmatched path: " + request->url());
+    request->send(404, "text/plain", "Not Found");
+  });
+
 
   // Start the server
   server.begin();
