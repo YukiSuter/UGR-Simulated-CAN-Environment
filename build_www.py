@@ -3,6 +3,13 @@ import subprocess
 import shutil
 Import("env")
 
+import sys
+from SCons.Script import ARGUMENTS, COMMAND_LINE_TARGETS
+
+# Print raw arguments for debugging
+# print("sys.argv:", sys.argv)
+# print("COMMAND_LINE_TARGETS:", COMMAND_LINE_TARGETS)
+
 def before_build_fs():
     print("Compiling Tailwind CSS...")
 
@@ -50,4 +57,11 @@ def before_build_fs():
 
     print("Successfully built www files")
 
-before_build_fs()
+if "buildfs" in COMMAND_LINE_TARGETS:
+    print("Filesystem build requested.")
+    before_build_fs()
+elif "uploadfs" in COMMAND_LINE_TARGETS:
+    print("Filesystem upload requested.")   
+    before_build_fs()
+else:
+    print("No filesystem upload/build requested.")

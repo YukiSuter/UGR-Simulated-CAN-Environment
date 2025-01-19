@@ -1,3 +1,78 @@
+// WEBSOCKET
+
+var gateway = `ws://${window.location.hostname}/ws`;
+var websocket;
+
+var canMessages = "";
+// Init web socket when the page loads
+window.addEventListener('load', onload);
+
+function onload(event) {
+    initWebSocket();
+}
+
+function initWebSocket() {
+    console.log('Trying to open a WebSocket connection…');
+    websocket = new WebSocket(gateway);
+    websocket.onopen = onOpen;
+    websocket.onclose = onClose;
+    websocket.onmessage = onMessage;
+}
+
+function getMessages(){
+    websocket.send("getMessages");
+}
+
+// When websocket is established, call the getReadings() function
+function onOpen(event) {
+    console.log('Connection opened');
+    getMessages();
+}
+
+function onClose(event) {
+    console.log('Connection closed');
+    setTimeout(initWebSocket, 2000);
+}
+
+function onMessage(event) {
+    console.log(event.data);
+    var wsEvent = JSON.parse(event.data);
+    var keys = Object.keys(wsEvent);
+
+    var d = new Date(); // for now
+    var timeString = "[" + d.getDate() + "/" + (d.getMonth()+1).toString() + "/" + d.getFullYear() + "; " + d.getHours().toString().padStart(2, '0') + ":" + d.getMinutes().toString().padStart(2, '0') + ":" + d.getSeconds().toString().padStart(2, '0') + "]"
+
+    console.log(wsEvent)
+
+    if (keys.length > 0) {
+        if (keys[0] = "type") {
+            if (wsEvent.type = "canRx") {
+                can_box = document.getElementById("canBox")
+                var rxID = wsEvent.body.id
+                var rxData = wsEvent.body.data
+                var rxLength = wsEvent.body.dataLength
+
+                var stringMsg = timeString + " ID: 0x" + rxID.toString(16) + "; Data Length: 0x" + rxLength + "; Data: [ "
+
+                for (let i = 0; i < rxLength-1; i++) {
+                    stringMsg += "0x"+rxData[i].toString(16) + " "
+                } 
+
+                can_box.value += stringMsg + "]\n"
+                can_box.scrollTop = can_box.scrollHeight 
+            }
+        } else {
+            console.log("Unknown message type")
+        }
+    } else {
+        console.log("Empty message received.")
+    }
+
+    
+}
+
+// UI
+
 config_static_cont = document.getElementById("config_static_cont")
 config_dynamic_cont = document.getElementById("config_dynamic_cont")
 config_custom_cont = document.getElementById("config_custom_cont")
@@ -13,6 +88,17 @@ config_settings = document.getElementById("config_settings")
 config_static_settings = document.getElementById("static_settings_container")
 config_custom_settings = document.getElementById("custom_settings_container")
 
+can_submit = document.getElementById("can_submit")
+can_address = document.getElementById("can_address")
+
+can_submit.addEventListener('click', () => {
+    console.log("CAN submit pressed!")
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/api/send_CAN?messageID="+can_address.value, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send();
+});
 
 config_static.addEventListener('click', () => {
     console.log("Static Config!")
