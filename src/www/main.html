@@ -41,7 +41,7 @@
           <button id="config_dynamic" class="text-xl text-gray-400 py-1 px-5 border-b-2 border-zinc-600 h-full">Regen - Dynamic</button>
         </div>
         <div id="config_custom_cont" class="h-10 mt-1 bg-zinc-700 border-l border-t border-zinc-600">
-          <button id="config_custom" class="text-xl text-gray-400 py-1 px-5 border-b-2 border-zinc-600 h-full">Custom CAN</button>
+          <button id="config_custom" class="text-xl text-gray-400 py-1 px-5 border-b-2 border-zinc-600 h-full">CAN Console</button>
         </div>
         <div id="config_spacer" class="h-10 flex-grow bg-zinc-700 border border-zinc-600 mt-1"></div>
         <div id="config_settings_cont" class="h-10 mt-1 bg-zinc-700 border-t border-zinc-600">
@@ -65,18 +65,44 @@
             <!-- Add more rows as needed -->
           </div>
           <div id="custom_settings_container" class="flex-grow p-5 justify-center h-full" style="display: none">
-              <div class="flex flex-col md:flex-row space-x-4">
-                <div>
+            <div class="flex flex-col md:flex-row space-x-4">
+              <div>
                   <h1 class="text-xl text-white">Send Message</h1>
-                  <label class="text-md text-white" for="address">Address:</label><br>
-                  <input type="text" id="can_address" name="address" value="" placeholder="0x00000000"><br>
-                  <label class="text-md text-white" for="content">Content:</label><br>
-                  <input type="text" id="can_content" name="content" value="" placeholder="Message"><br><br>
-                  <input class="text-md text-white" id="can_submit" type="submit" value="Submit">
-                </div>
-                
-                <textarea id="canBox" readonly name="canBox" rows="4" cols="50" class="w-full h-full" style="height: 100%"></textarea>
+          
+                  <div class="my-1">
+                      <label class="rounded-md text-md text-white my-1" for="address">Address:</label><br>
+                      <input class="rounded-md p-1" type="text" id="can_address" name="address" value="" placeholder="0x000"><br>
+                  </div>
+          
+                  <div class="py-1">
+                      <label class="rounded-md my-1 text-md text-white float-left" for="quantity">Data Size:</label>
+                      <input class="rounded-md p-1 float-right" type="number" id="data_size" value="1" name="data_size" min="1" max="8"><br>
+                  </div>
+          
+                  <div class="my-1">
+                      <label class="rounded-md text-md text-white" for="content">Data:</label><br>
+                  </div>
+          
+                  <div class="my-1" id="can_tx_databox">
+                      <label class="rounded-md my-1 text-md text-white float-left" for="can_content">[0]:</label>
+                      <input class="rounded-md p-1 float-right w-20" type="text" id="can_content" name="content" value="" placeholder="0x00"><br>
+                  </div>
+          
+                  <input class="rounded-md w-full bg-yellow-300 text-zinc-800 mt-4 text-md text-white py-1" id="can_submit" type="submit" value="Submit">
               </div>
+              <div id="commsBox" class="w-full h-full flex flex-col">
+                <div>
+                  <h1 class="text-xl text-white float-left">CAN Bus Activity</h1>
+                  <input class="rounded-md px-1 bg-yellow-300 text-zinc-800 text-md text-white py-1 float-right " id="clear_logs" type="submit" value="🗑️">
+                  <input class="rounded-md px-5 bg-yellow-300 text-zinc-800 text-md text-white py-1 float-right mx-1" id="monitor_button" type="submit" value="🔴 Start Logging">
+                </div>
+                <h1 class="text-lg text-white">Rx</h1>
+                <textarea id="canBox_RX" readonly name="canBox_RX" rows="4" cols="50" class="w-full h-fit" style="height: 100%"></textarea>
+                <h1 class="text-lg text-white">Tx</h1>
+                <textarea id="canBox_TX" readonly name="canBox_TX" rows="4" cols="50" class="w-full h-fit" style="height: 100%"></textarea>
+              </div>
+            </div>
+          
           </div>
         </div>
       </div>
